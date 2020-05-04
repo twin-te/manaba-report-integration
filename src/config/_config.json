@@ -1,0 +1,14 @@
+{
+  "key": "",
+  "google": {
+    "client_id": "",
+    "scopes": [
+      ""
+    ]
+  },
+  "trello": {
+    "app_name": "",
+    "key": "",
+    "scopes": ""
+  }
+}

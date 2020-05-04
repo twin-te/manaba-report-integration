@@ -1,0 +1,50 @@
+{
+  "name": "Manaba Report Integration by Twin:te",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "Manabaのレポート提出状況を外部サービスに同期します",
+  "permissions": [
+    "identity",
+    "activeTab",
+    "storage",
+    "declarativeContent"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "page_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/16.png",
+      "32": "icons/32.png",
+      "64": "icons/64.png",
+      "128": "icons/128.png",
+      "512": "icons/512.png"
+    }
+  },
+  "oauth2": {
+    "client_id": "replace by webpack",
+    "scopes": [
+      "replace by webpack"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://manaba.tsukuba.ac.jp/ct/*"],
+      "js": ["manaba_main.js", "manaba_main_ui.js"]
+    },
+    {
+      "matches": ["https://manaba.tsukuba.ac.jp/ct/course_*_report_*"],
+      "js": ["manaba_commit.js"]
+    }
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval' ; object-src 'self'",
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "64": "icons/64.png",
+    "128": "icons/128.png",
+    "512": "icons/512.png"
+  }
+}
