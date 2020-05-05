@@ -19,11 +19,20 @@ async function listCource(): Promise<{ link: string; title: string }[]> {
   const raw = await (await fetch('https://manaba.tsukuba.ac.jp/ct/home')).text()
   const dom = createElementFromHTML(raw)
 
-  return [
+  let list = [
     ...dom.querySelectorAll<HTMLLinkElement>(
       'table.stdlist.courselist .courselist-title > a'
     ),
-  ].map((a) => ({
+  ]
+
+  if (list.length === 0)
+    list = [
+      ...document.querySelectorAll<HTMLLinkElement>(
+        '.mycourses-body .course-card-title  a'
+      ),
+    ]
+
+  return list.map((a) => ({
     link: a.href,
     title: a.textContent || '',
   }))
