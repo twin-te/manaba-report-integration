@@ -4,7 +4,7 @@ import { Repository } from './repository'
 import { Trello } from './trello'
 import { readStorage, writeStorage } from '../background/utils'
 
-export const repositories = [new GoogleTaskRepository(), new Trello()]
+export const repositories = [new Trello(), new GoogleTaskRepository()]
 
 export async function getActiveRepository(): Promise<Repository | undefined> {
   const id = await readStorage<string>('activeRepository')

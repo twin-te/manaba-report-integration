@@ -61,6 +61,7 @@ export class Trello extends Repository {
           idList: targetList.id,
           name: `${todo.courceName} ${todo.title}`,
           due: todo.due,
+          dueComplete: todo.status === 'done',
           urlSource: todo.link,
         }
       )
@@ -83,6 +84,7 @@ export class Trello extends Repository {
         idList: targetList.id,
         name: `${todo.courceName} ${todo.title}`,
         due: todo.due,
+        dueComplete: todo.status === 'done',
         urlSource: todo.link,
       })
     }
@@ -114,6 +116,7 @@ export class Trello extends Repository {
       targetList = { id: target.idList }
 
     await this.put(`https://api.trello.com/1/cards/${rel[id]}`, {
+      dueComplete: status === 'done',
       idList: targetList.id,
     })
   }

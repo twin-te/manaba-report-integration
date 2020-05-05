@@ -53,9 +53,7 @@ const SyncSection: React.FC<SyncSectionProp> = ({ hasActiveRepo }) => {
         disabled={importing || !hasActiveRepo}
         variant="contained"
         color="primary"
-        onClick={() =>
-          onImportClick(setProgress, setImporting, setImportingText)
-        }
+        onClick={() => onImportClick()}
       >
         同期
       </WhiteButton>
