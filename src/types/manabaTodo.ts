@@ -5,5 +5,7 @@ export interface ManabaTodo {
   title: string
   link: string
   due: Date | null
-  status: 'todo' | 'done'
+  status: ManabaTodoStatus
 }
+
+export type ManabaTodoStatus = 'todo' | 'done' | 'overdue'

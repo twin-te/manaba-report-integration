@@ -1,4 +1,4 @@
-import { ManabaTodo } from '../types/manabaTodo'
+import { ManabaTodo, ManabaTodoStatus } from '../types/manabaTodo'
 import { Message } from '../types/message'
 
 /**
@@ -56,6 +56,19 @@ async function getReports(link: string): Promise<ManabaTodo[]> {
     ),
   ].map((e) => {
     const tds = e.querySelectorAll('td')
+    let status: ManabaTodoStatus = 'todo'
+    if (tds[1].textContent?.includes('提出済み')) status = 'done'
+    else if (
+      tds[1].textContent?.includes('未提出') &&
+      tds[1].textContent?.includes('受付終了')
+    )
+      status = 'overdue'
+    else if (
+      tds[1].textContent?.includes('未提出') ||
+      tds[1].textContent?.includes('受付開始待ち')
+    )
+      status = 'todo'
+
     return {
       type: 'report',
       courceName,
@@ -63,7 +76,7 @@ async function getReports(link: string): Promise<ManabaTodo[]> {
       title: tds[0].querySelector('a')?.textContent || '',
       link: tds[0].querySelector('a')?.href || '',
       due: tds[3].textContent ? new Date(tds[3].textContent) : null,
-      status: tds[1].querySelector('.deadline') ? 'todo' : 'done',
+      status,
     }
   })
 }

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Repository } from './repository'
 import { RepositorySetting, DropdownSetting } from '../types/repositorySettings'
-import { ManabaTodo } from '../types/manabaTodo'
+import { ManabaTodo, ManabaTodoStatus } from '../types/manabaTodo'
 
 export class GoogleTaskRepository extends Repository {
   id = 'googletask'
@@ -37,7 +37,7 @@ export class GoogleTaskRepository extends Repository {
   }
 
   async upsert(todo: ManabaTodo) {
-    if (!todo.due) return
+    if (!todo.due || todo.status === 'overdue') return
     const targetTasklist = await this.readChromeStorage('target_tasklist')
     const rel: { [key: string]: string } =
       (await this.readChromeStorage('relation')) || {}
@@ -71,7 +71,8 @@ export class GoogleTaskRepository extends Repository {
     }
   }
 
-  async changeStatus(id: string, status: 'todo' | 'done'): Promise<void> {
+  async changeStatus(id: string, status: ManabaTodoStatus): Promise<void> {
+    if (status === 'overdue') return
     const targetTasklist = await this.readChromeStorage('target_tasklist')
     const rel: { [key: string]: string } =
       (await this.readChromeStorage('relation')) || {}

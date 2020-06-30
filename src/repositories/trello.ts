@@ -1,5 +1,5 @@
 import { Repository } from './repository'
-import { ManabaTodo } from '../types/manabaTodo'
+import { ManabaTodo, ManabaTodoStatus } from '../types/manabaTodo'
 import { RepositorySetting, DropdownSetting } from '../types/repositorySettings'
 import config from '../config/config.json'
 
@@ -40,7 +40,7 @@ export class Trello extends Repository {
   }
 
   async upsert(todo: ManabaTodo): Promise<void> {
-    if (!todo.due) return
+    if (!todo.due && todo.status === 'overdue') return
     const rel: { [key: string]: string } =
       (await this.readChromeStorage('relation')) || {}
     const lists = await this.get<{ id: string }[]>(
@@ -89,7 +89,8 @@ export class Trello extends Repository {
       })
     }
   }
-  async changeStatus(id: string, status: 'todo' | 'done'): Promise<void> {
+  async changeStatus(id: string, status: ManabaTodoStatus): Promise<void> {
+    if (status === 'overdue') return
     const rel: { [key: string]: string } =
       (await this.readChromeStorage('relation')) || {}
     if (!rel[id])
