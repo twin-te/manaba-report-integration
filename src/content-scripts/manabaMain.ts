@@ -18,7 +18,6 @@ function createElementFromHTML(htmlString: string): HTMLElement {
 async function listCource(): Promise<{ link: string; title: string }[]> {
   const raw = await (await fetch('https://manaba.tsukuba.ac.jp/ct/home')).text()
   const dom = createElementFromHTML(raw)
-
   let list = [
     ...dom.querySelectorAll<HTMLLinkElement>(
       'table.stdlist.courselist .courselist-title > a'
@@ -27,7 +26,7 @@ async function listCource(): Promise<{ link: string; title: string }[]> {
 
   if (list.length === 0)
     list = [
-      ...document.querySelectorAll<HTMLLinkElement>(
+      ...dom.querySelectorAll<HTMLLinkElement>(
         '.mycourses-body .course-card-title  a'
       ),
     ]
