@@ -1,5 +1,5 @@
 export interface ManabaTodo {
-  type: 'report' | 'survey'
+  type: TodoType
   courceName: string
   lectureCode: string
   title: string
@@ -9,3 +9,5 @@ export interface ManabaTodo {
 }
 
 export type ManabaTodoStatus = 'todo' | 'done' | 'overdue'
+
+export type TodoType = 'report' | 'survey' | 'query'

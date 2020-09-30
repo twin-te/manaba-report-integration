@@ -1,4 +1,4 @@
-import { ManabaTodo, ManabaTodoStatus } from '../types/manabaTodo'
+import { ManabaTodo, ManabaTodoStatus, TodoType } from '../types/manabaTodo'
 import { Message } from '../types/message'
 
 /**
@@ -38,12 +38,12 @@ async function listCource(): Promise<{ link: string; title: string }[]> {
 }
 
 /**
- * 指定されたコースのレポートを取得
+ * 指定されたコースのレポート、アンケート、小テストを取得
  * @param link {string} コースへのリンク
  * @returns {{title: string, link: string, deadline: string, status: string}[]} link
  */
-async function getReports(link: string): Promise<ManabaTodo[]> {
-  const raw = await (await fetch(`${link}_report`)).text()
+async function getReports(link: string, type: TodoType): Promise<ManabaTodo[]> {
+  const raw = await (await fetch(`${link}_${type}`)).text()
   const dom = createElementFromHTML(raw)
 
   const courceName = dom.querySelector('#coursename')?.textContent || ''
@@ -69,7 +69,7 @@ async function getReports(link: string): Promise<ManabaTodo[]> {
       status = 'todo'
 
     return {
-      type: 'report',
+      type: type,
       courceName,
       lectureCode,
       title: tds[0].querySelector('a')?.textContent || '',
@@ -81,12 +81,20 @@ async function getReports(link: string): Promise<ManabaTodo[]> {
 }
 
 /**
- * 全てのコースのすべてのレポートを取得
+ * 全てのコースのすべてのレポート、アンケート、小テストを取得
  */
 async function getAllReports(): Promise<ManabaTodo[]> {
   const list = await listCource()
   return (
-    await Promise.all(list.map(async (c) => await getReports(c.link)))
+    await Promise.all(
+      list.map(async (c) =>
+        [
+          await getReports(c.link, 'report'),
+          await getReports(c.link, 'query'),
+          await getReports(c.link, 'survey'),
+        ].flat()
+      )
+    )
   ).flat()
 }
 
