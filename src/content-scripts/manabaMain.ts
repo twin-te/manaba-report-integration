@@ -1,4 +1,5 @@
-import { ManabaTodo, ManabaTodoStatus } from '../types/manabaTodo'
+import { readBlackList } from '../types/filterSetting'
+import { ManabaTodo, ManabaTodoStatus, TodoType } from '../types/manabaTodo'
 import { Message } from '../types/message'
 
 /**
@@ -38,12 +39,12 @@ async function listCource(): Promise<{ link: string; title: string }[]> {
 }
 
 /**
- * 指定されたコースのレポートを取得
+ * 指定されたコースのレポート、アンケート、小テストを取得
  * @param link {string} コースへのリンク
  * @returns {{title: string, link: string, deadline: string, status: string}[]} link
  */
-async function getReports(link: string): Promise<ManabaTodo[]> {
-  const raw = await (await fetch(`${link}_report`)).text()
+async function getReports(link: string, type: TodoType): Promise<ManabaTodo[]> {
+  const raw = await (await fetch(`${link}_${type}`)).text()
   const dom = createElementFromHTML(raw)
 
   const courceName = dom.querySelector('#coursename')?.textContent || ''
@@ -69,7 +70,7 @@ async function getReports(link: string): Promise<ManabaTodo[]> {
       status = 'todo'
 
     return {
-      type: 'report',
+      type: type,
       courceName,
       lectureCode,
       title: tds[0].querySelector('a')?.textContent || '',
@@ -81,12 +82,30 @@ async function getReports(link: string): Promise<ManabaTodo[]> {
 }
 
 /**
- * 全てのコースのすべてのレポートを取得
+ * 全てのコースのすべてのレポート、アンケート、小テストを取得
  */
 async function getAllReports(): Promise<ManabaTodo[]> {
   const list = await listCource()
+  const blackList = await readBlackList()
+  console.log('blacklist', blackList)
   return (
-    await Promise.all(list.map(async (c) => await getReports(c.link)))
+    await Promise.all(
+      list.map(async (c) => {
+        console.log(c.link, blackList.cources[c.link])
+        const res = []
+        // 全体でレポートが無効になっていない＆コースのレポートも無効になっていない場合
+        if (!blackList.master.report && !blackList.cources[c.link]?.report)
+          res.push(...(await getReports(c.link, 'report')))
+
+        if (!blackList.master.survey && !blackList.cources[c.link]?.survey)
+          res.push(...(await getReports(c.link, 'survey')))
+
+        if (!blackList.master.query && !blackList.cources[c.link]?.query)
+          res.push(...(await getReports(c.link, 'query')))
+
+        return res
+      })
+    )
   ).flat()
 }
 

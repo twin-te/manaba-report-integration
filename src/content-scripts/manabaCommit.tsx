@@ -17,7 +17,10 @@ const App: React.FC = () => {
     'Manaba Report Integration:　更新中...'
   )
   useEffect(() => {
-    if (location.search === '?action=commited') {
+    if (
+      location.search === '?action=commited' ||
+      location.search === '?ReviewMode=1'
+    ) {
       setOpen(true)
       chrome.runtime.sendMessage(
         {
