@@ -1,3 +1,4 @@
+import { readBlackList } from '../types/filterSetting'
 import { ManabaTodo, ManabaTodoStatus, TodoType } from '../types/manabaTodo'
 import { Message } from '../types/message'
 
@@ -85,15 +86,25 @@ async function getReports(link: string, type: TodoType): Promise<ManabaTodo[]> {
  */
 async function getAllReports(): Promise<ManabaTodo[]> {
   const list = await listCource()
+  const blackList = await readBlackList()
+  console.log('blacklist', blackList)
   return (
     await Promise.all(
-      list.map(async (c) =>
-        [
-          await getReports(c.link, 'report'),
-          await getReports(c.link, 'query'),
-          await getReports(c.link, 'survey'),
-        ].flat()
-      )
+      list.map(async (c) => {
+        console.log(c.link, blackList.cources[c.link])
+        const res = []
+        // 全体でレポートが無効になっていない＆コースのレポートも無効になっていない場合
+        if (!blackList.master.report && !blackList.cources[c.link]?.report)
+          res.push(...(await getReports(c.link, 'report')))
+
+        if (!blackList.master.survey && !blackList.cources[c.link]?.survey)
+          res.push(...(await getReports(c.link, 'survey')))
+
+        if (!blackList.master.query && !blackList.cources[c.link]?.query)
+          res.push(...(await getReports(c.link, 'query')))
+
+        return res
+      })
     )
   ).flat()
 }
