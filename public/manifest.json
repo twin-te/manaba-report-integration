@@ -3,12 +3,7 @@
   "version": "1.0.3",
   "manifest_version": 2,
   "description": "Manabaのレポート提出状況を外部サービスに同期します",
-  "permissions": [
-    "identity",
-    "activeTab",
-    "storage",
-    "declarativeContent"
-  ],
+  "permissions": ["identity", "activeTab", "storage", "declarativeContent"],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
@@ -25,9 +20,7 @@
   },
   "oauth2": {
     "client_id": "replace by webpack",
-    "scopes": [
-      "replace by webpack"
-    ]
+    "scopes": ["replace by webpack"]
   },
   "content_scripts": [
     {
@@ -35,7 +28,11 @@
       "js": ["manaba_main.js", "manaba_main_ui.js"]
     },
     {
-      "matches": ["https://manaba.tsukuba.ac.jp/ct/course_*_report_*"],
+      "matches": [
+        "https://manaba.tsukuba.ac.jp/ct/course_*_report_*",
+        "https://manaba.tsukuba.ac.jp/ct/course_*_survey_*",
+        "https://manaba.tsukuba.ac.jp/ct/course_*_query_*"
+      ],
       "js": ["manaba_commit.js"]
     }
   ],
