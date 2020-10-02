@@ -3,6 +3,7 @@ export type Message =
   | UpdateTodoStatusMessage
   | RequestSyncMessage
   | SyncStatusChangedMessage
+  | EditBlackListMessage
 
 export interface FetchAllReportFromManaba {
   type: 'fetchAllReportFromManaba'
@@ -23,4 +24,8 @@ export interface SyncStatusChangedMessage {
   status: 'progress' | 'done'
   statusText: string
   progress: string
+}
+
+export interface EditBlackListMessage {
+  type: 'editBlackList'
 }

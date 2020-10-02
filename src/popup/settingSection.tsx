@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { readStorage, writeStorage } from '../background/utils'
-import { FormControlLabel, Switch, Paper } from '@material-ui/core'
+import { FormControlLabel, Switch, Paper, Button } from '@material-ui/core'
+import WhiteButton from './whiteButton'
 
 const Root = styled(Paper)({
   padding: '1rem',
@@ -19,6 +20,22 @@ const SettingSection: React.FC = () => {
 
   return (
     <Root elevation={0}>
+      <section>
+        <WhiteButton
+          color="primary"
+          variant="contained"
+          onClick={() => {
+            chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              chrome.tabs.sendMessage(tabs[0].id!!, { type: 'editBlackList' })
+            })
+            window.close()
+          }}
+        >
+          フィルタの設定
+        </WhiteButton>
+        <p>授業ごとや、カテゴリごとに同期するものを選択できます</p>
+      </section>
       <FormControlLabel
         control={
           <Switch
