@@ -1,18 +1,16 @@
 import { readStorage, writeStorage } from '../background/utils'
 
 export interface BlackList {
-  master: {
-    report: boolean
-    survey: boolean
-    query: boolean
-  }
+  master: BlackListItem
   cources: {
-    [key: string]: {
-      report: boolean
-      survey: boolean
-      query: boolean
-    }
+    [key: string]: BlackListItem
   }
+}
+
+export type BlackListItem = {
+  report: boolean
+  survey: boolean
+  query: boolean
 }
 
 const defaultList: BlackList = {
