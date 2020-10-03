@@ -1,3 +1,4 @@
+import { FormControlLabel } from '@material-ui/core'
 import Checkbox from '@material-ui/core/Checkbox'
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
@@ -8,6 +9,7 @@ type CourceSelectProp = {
   value?: BlackListItem
   onChange: (item: BlackListItem) => void
   parent: HTMLElement
+  showLabel?: boolean
 }
 
 const defaultValue = {
@@ -21,38 +23,54 @@ const CourceSelect: React.FC<CourceSelectProp> = ({
   parent,
   disabled,
   onChange,
+  showLabel,
 }) => {
   return ReactDOM.createPortal(
     <div>
-      <Checkbox
-        disabled={disabled?.query}
-        checked={!value?.query}
-        onChange={(e, c) => {
-          onChange({
-            ...(value || defaultValue),
-            query: !c,
-          })
-        }}
+      <FormControlLabel
+        control={
+          <Checkbox
+            disabled={disabled?.query}
+            checked={!value?.query}
+            onChange={(e, c) => {
+              onChange({
+                ...(value || defaultValue),
+                query: !c,
+              })
+            }}
+          />
+        }
+        label={showLabel ? '小テ' : ''}
       />
-      <Checkbox
-        disabled={disabled?.survey}
-        checked={!value?.survey}
-        onChange={(e, c) => {
-          onChange({
-            ...(value || defaultValue),
-            survey: !c,
-          })
-        }}
+      <FormControlLabel
+        control={
+          <Checkbox
+            disabled={disabled?.survey}
+            checked={!value?.survey}
+            onChange={(e, c) => {
+              onChange({
+                ...(value || defaultValue),
+                survey: !c,
+              })
+            }}
+          />
+        }
+        label={showLabel ? 'アンケ' : ''}
       />
-      <Checkbox
-        disabled={disabled?.report}
-        checked={!value?.report}
-        onChange={(e, c) => {
-          onChange({
-            ...(value || defaultValue),
-            report: !c,
-          })
-        }}
+      <FormControlLabel
+        control={
+          <Checkbox
+            disabled={disabled?.report}
+            checked={!value?.report}
+            onChange={(e, c) => {
+              onChange({
+                ...(value || defaultValue),
+                report: !c,
+              })
+            }}
+          />
+        }
+        label={showLabel ? 'レポ' : ''}
       />
     </div>,
     parent

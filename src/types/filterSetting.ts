@@ -16,8 +16,8 @@ export type BlackListItem = {
 const defaultList: BlackList = {
   master: {
     report: false,
-    survey: false,
-    query: false,
+    survey: true,
+    query: true,
   },
   cources: {},
 }

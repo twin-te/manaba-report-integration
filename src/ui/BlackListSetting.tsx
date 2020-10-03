@@ -2,58 +2,9 @@ import { Link } from '@material-ui/core'
 import React, { useEffect, useMemo, useState } from 'react'
 import useSWR, { mutate } from 'swr'
 import { readStorage, writeStorage } from '../background/utils'
-import { BlackList, BlackListItem } from '../types/filterSetting'
+import { BlackList, BlackListItem, readBlackList } from '../types/filterSetting'
+import { blacklistDomUtil, Cource, detectType } from './blacklistUtils'
 import CourceSelect from './CourceSelect'
-
-function listCourceDOM(): Cource[] {
-  return [
-    ...document.querySelectorAll<HTMLTableRowElement>(
-      'table.stdlist.courselist tr.courselist-c'
-    ),
-  ]
-    .map<Partial<Cource>>((d) => ({
-      container: d,
-      link: d.querySelector<HTMLLinkElement>('.courselist-title > a')?.href,
-    }))
-    .filter(({ container, link }) => container && link) as Cource[]
-}
-
-function prepare(list: Cource[]): [Cource[], HTMLElement] {
-  const tableTitle = document.querySelector('.stdlist.courselist .title')
-  if (!tableTitle) throw new Error('テーブルが見つかりません')
-  const th = document.createElement('th')
-  th.innerHTML = '同期するものにチェック<br>小テスト・アンケート・レポート'
-  th.className = 'th-filter'
-  th.setAttribute('width', '30%')
-  tableTitle.insertBefore(th, tableTitle.firstChild)
-  return [
-    list.map(({ container, link }) => {
-      container.removeAttribute('onclick')
-      const nc = container.cloneNode(true)
-      container.parentNode?.replaceChild(nc, container)
-      const reactRoot = document.createElement('td')
-      reactRoot.className = 'react-root'
-      reactRoot.style.textAlign = 'center'
-      return {
-        container: nc.insertBefore(reactRoot, nc.firstChild),
-        link,
-      }
-    }),
-    th,
-  ]
-}
-
-function deleteReactRootElement(list: Cource[]): void {
-  const tableTitle = document.querySelector('.stdlist.courselist .title')
-  if (tableTitle && tableTitle.firstChild && tableTitle.lastChild) {
-    tableTitle.removeChild(tableTitle.firstChild)
-  }
-  list.map(({ container }) => {
-    if (container?.parentElement) container.parentElement.removeChild(container)
-  })
-}
-
-type Cource = { container: HTMLElement; link: string }
 
 type BlackListSettingProp = {
   active: boolean
@@ -62,14 +13,14 @@ type BlackListSettingProp = {
 const BlackListSetting: React.FC<BlackListSettingProp> = ({ active }) => {
   const [list, setList] = useState<Cource[]>([])
   const [th, setTh] = useState<HTMLElement | undefined>()
-  const { data: blacklist } = useSWR<BlackList>('blacklist', readStorage)
+  const { data: blacklist } = useSWR<BlackList>('blacklist', readBlackList)
   useEffect(() => {
     if (active) {
-      const [list, th] = prepare(listCourceDOM())
+      const [list, th] = blacklistDomUtil().prepare()
       setList(list)
       setTh(th)
     } else if (!active && list.length > 0) {
-      deleteReactRootElement(list)
+      blacklistDomUtil().deleteReactRootElement(list)
       setList([])
     }
   }, [active])
@@ -81,7 +32,6 @@ const BlackListSetting: React.FC<BlackListSettingProp> = ({ active }) => {
     await writeStorage('blacklist', tmp)
     mutate('blacklist', tmp)
   }
-
   return (
     <div>
       {th && (
@@ -95,6 +45,7 @@ const BlackListSetting: React.FC<BlackListSettingProp> = ({ active }) => {
             await writeStorage('blacklist', tmp)
             mutate('blacklist', tmp)
           }}
+          showLabel={detectType() === 'thumb'}
         />
       )}
       {list.map(({ container, link }) => (
@@ -104,6 +55,7 @@ const BlackListSetting: React.FC<BlackListSettingProp> = ({ active }) => {
           parent={container}
           value={blacklist?.cources[link]}
           onChange={handleOnItemChange(link)}
+          showLabel={detectType() === 'thumb'}
         />
       ))}
     </div>
