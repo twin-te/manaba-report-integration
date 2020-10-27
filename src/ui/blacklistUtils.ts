@@ -32,7 +32,7 @@ const listType = {
         container.removeAttribute('onclick')
         const nc = container.cloneNode(true) as HTMLElement
         container.parentNode?.replaceChild(nc, container)
-        nc.removeChild(nc.children[3])
+        if (nc.children[3]) nc.removeChild(nc.children[3])
         const reactRoot = document.createElement('td')
         reactRoot.className = 'react-root'
         reactRoot.style.textAlign = 'center'
