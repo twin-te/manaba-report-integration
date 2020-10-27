@@ -5,6 +5,8 @@ import { Snackbar, CircularProgress, Button } from '@material-ui/core'
 import { Message } from '../types/message'
 import { MainTheme } from '../uiTheme'
 import BlackListSetting from '../ui/BlackListSetting'
+import { readStorage, writeStorage } from '../background/utils'
+import useSWR from 'swr'
 
 const App = () => {
   const [progress, setProgress] = useState(0)
@@ -28,6 +30,12 @@ const App = () => {
     chrome.runtime.onMessage.addListener(listener)
     return () => chrome.runtime.onMessage.removeListener(listener)
   }, [])
+
+  const {
+    data: blackListFeatureNotify,
+    mutate: updateBlackListFeatureNotify,
+  } = useSWR('special-notify:black-list-feature', readStorage)
+
   return (
     <MainTheme>
       {!editBlackList && (
@@ -42,10 +50,34 @@ const App = () => {
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           open={editBlackList}
-          message={'フィルタ設定中'}
+          message={
+            <>
+              <div>フィルタ設定中</div>
+              <div>(次回の同期から反映されます)</div>
+            </>
+          }
           action={
             <Button color="secondary" onClick={() => setEditBlackList(false)}>
               完了
+            </Button>
+          }
+        />
+      )}
+      {!blackListFeatureNotify && (
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          open={!editBlackList}
+          message={'小テストやレポートも同期できるようになりました！'}
+          action={
+            <Button
+              color="secondary"
+              onClick={async () => {
+                setEditBlackList(true)
+                await writeStorage('special-notify:black-list-feature', true)
+                updateBlackListFeatureNotify(true)
+              }}
+            >
+              設定する
             </Button>
           }
         />
