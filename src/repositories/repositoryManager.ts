@@ -23,14 +23,10 @@ export async function upsertAll(
   if (!repo) throw new Error('同期先が設定されていません')
 
   await repo.auth()
-  data = data
-    .map(({ due, ...t }) => ({
-      due: due ? new Date(due) : null,
-      ...t,
-    }))
-    .filter(
-      ({ due }) => Date.now() - (due?.getTime() || 0) < 1000 * 60 * 60 * 24 * 14
-    )
+  data = data.map(({ due, ...t }) => ({
+    due: due ? new Date(due) : null,
+    ...t,
+  }))
   console.log(data)
   for (let i = 0; i < data.length; i++) {
     await repo.upsert(data[i])
