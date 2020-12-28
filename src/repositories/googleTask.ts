@@ -41,6 +41,13 @@ export class GoogleTaskRepository extends Repository {
     const targetTasklist = await this.readChromeStorage('target_tasklist')
     const rel: { [key: string]: string } =
       (await this.readChromeStorage('relation')) || {}
+
+    if (Date.now() - todo.due.getTime() > 1000 * 60 * 60 * 24 * 14) {
+      delete rel[todo.link]
+      await this.writeChromeStorage('relation', rel)
+      return
+    }
+
     if (!rel[todo.link]) {
       const res = await this.post<{ id: string }>(
         `https://www.googleapis.com/tasks/v1/lists/${targetTasklist}/tasks`,

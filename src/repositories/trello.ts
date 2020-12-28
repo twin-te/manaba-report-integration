@@ -43,6 +43,13 @@ export class Trello extends Repository {
     if (!todo.due && todo.status === 'overdue') return
     const rel: { [key: string]: string } =
       (await this.readChromeStorage('relation')) || {}
+
+    if (Date.now() - (todo.due?.getTime() || 0) > 1000 * 60 * 60 * 24 * 14) {
+      delete rel[todo.link]
+      await this.writeChromeStorage('relation', rel)
+      return
+    }
+
     const lists = await this.get<{ id: string }[]>(
       `https://api.trello.com/1/boards/${await this.readChromeStorage(
         'target_board'
