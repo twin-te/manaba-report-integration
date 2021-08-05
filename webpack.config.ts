@@ -68,6 +68,21 @@ const webpackConfig: ConfigurationFactory = () => {
             return JSON.stringify(json)
           },
         },
+        {
+          from: 'public/manifest.json',
+          to: './manifest_firefox.json',
+          transform(content): string {
+            const json = JSON.parse(content.toString())
+            json.oauth2.client_id = config.google.client_id
+            json.oauth2.scopes = config.google.scopes
+            json.key = config.key
+	    json.permissions = json.permissions.filter((key: string) => {
+		    return key != "declarativeContent"
+	    })
+	    json.background.persistent = true
+            return JSON.stringify(json)
+          },
+        },
         { from: 'public', to: '.' },
       ]),
     ],
