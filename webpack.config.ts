@@ -79,6 +79,8 @@ const webpackConfig: ConfigurationFactory = () => {
 	    json.permissions = json.permissions.filter((key: string) => {
 		    return key != "declarativeContent"
 	    })
+      json.browser_action = json.page_action
+      delete json.page_action
 	    json.background.persistent = true
             return JSON.stringify(json)
           },
