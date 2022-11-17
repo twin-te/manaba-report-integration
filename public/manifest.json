@@ -18,10 +18,6 @@
       "512": "icons/512.png"
     }
   },
-  "oauth2": {
-    "client_id": "replace by webpack",
-    "scopes": ["replace by webpack"]
-  },
   "content_scripts": [
     {
       "matches": ["https://manaba.tsukuba.ac.jp/ct/*"],
@@ -43,5 +39,11 @@
     "64": "icons/64.png",
     "128": "icons/128.png",
     "512": "icons/512.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{2a8e688d-183a-458a-9205-062131c71228}",
+      "strict_min_version": "42.0"
+    }
   }
 }

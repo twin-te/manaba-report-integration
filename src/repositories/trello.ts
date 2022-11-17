@@ -18,11 +18,12 @@ export class Trello extends Repository {
       return
     }
     return new Promise<void>((resolve, reject) => {
+
       chrome.identity.launchWebAuthFlow(
         {
           url:
             'https://trello.com/1/OAuthAuthorizeToken?expiration=never' +
-            `&name=${config.trello.app_name}&scope=${config.trello.scopes}&key=${config.trello.key}&return_url=https://${chrome.runtime.id}.chromiumapp.org/`,
+            `&name=${config.trello.app_name}&scope=${config.trello.scopes}&key=${config.trello.key}&return_url=${chrome.identity.getRedirectURL()}`,
           interactive: true,
         },
         async (responseUrl) => {
