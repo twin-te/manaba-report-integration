@@ -5,11 +5,14 @@
   "scripts": {
     "build": "tsc --noEmit && webpack",
     "fmt": "prettier --write .",
-    "lint": "eslint . --ext .tsx,.ts --fix"
+    "lint": "eslint . --ext .tsx,.ts --fix",
+    "schema": "mkdir -p src/graphql/schemas && curl -o src/graphql/schemas/github.gql https://docs.github.com/public/schema.docs.graphql",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.12",
     "@material-ui/icons": "^4.9.1",
+    "graphql": "^16.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "styled-components": "^5.1.0",
@@ -17,6 +20,11 @@
     "webextension-polyfill-ts": "^0.14.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.13.12",
+    "@graphql-codegen/typescript": "2.8.2",
+    "@graphql-codegen/typescript-graphql-files-modules": "^2.2.1",
+    "@graphql-codegen/typescript-graphql-request": "^4.5.8",
+    "@graphql-codegen/typescript-operations": "^2.5.7",
     "@types/chrome": "^0.0.106",
     "@types/copy-webpack-plugin": "^5.0.0",
     "@types/react": "^16.9.34",
@@ -35,7 +43,7 @@
     "style-loader": "^1.2.1",
     "ts-loader": "^7.0.1",
     "ts-node": "^8.9.1",
-    "typescript": "^3.8.3",
+    "typescript": "4.1",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
   },
