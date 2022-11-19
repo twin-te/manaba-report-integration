@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
+    "fmt": "prettier --write **/*.{tsx,ts}",
     "lint": "eslint . --ext .tsx,.ts --fix"
   },
   "dependencies": {
