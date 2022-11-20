@@ -1,0 +1,84 @@
+query ListFirst100ProjectsV2 {
+  viewer {
+    projectsV2(first: 100, orderBy: { field: UPDATED_AT, direction: DESC }) {
+      nodes {
+        title
+        number
+        id
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
+
+query ListNext100ProjectsV2($after: String!) {
+  viewer {
+    projectsV2(
+      first: 100
+      after: $after
+      orderBy: { field: UPDATED_AT, direction: DESC }
+    ) {
+      nodes {
+        title
+        number
+        id
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
+
+query GetField($projectId: ID!, $fieldName: String!) {
+  node(id: $projectId) {
+    __typename
+    ... on ProjectV2 {
+      field(name: $fieldName) {
+        __typename
+        ... on ProjectV2Field {
+          id
+        }
+      }
+    }
+  }
+}
+
+mutation AddIssueToProjectV2($issueId: ID!, $projectId: ID!) {
+  addProjectV2ItemById(input: { contentId: $issueId, projectId: $projectId }) {
+    item {
+      id
+      fieldValueByName(name: "Due") {
+        ... on ProjectV2ItemFieldDateValue {
+          field {
+            ... on ProjectV2Field {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+mutation AddDueDateToProjectV2Item(
+  $fieldId: ID!
+  $itemId: ID!
+  $projectId: ID!
+  $value: ProjectV2FieldValue!
+) {
+  updateProjectV2ItemFieldValue(
+    input: {
+      fieldId: $fieldId
+      itemId: $itemId
+      projectId: $projectId
+      value: $value
+    }
+  ) {
+    clientMutationId
+  }
+}
