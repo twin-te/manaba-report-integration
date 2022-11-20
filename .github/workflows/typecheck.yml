@@ -1,0 +1,33 @@
+name: Typecheck
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  tsc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          cache: yarn
+          node-version-file: package.json
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Setup reviewdog
+        uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: latest
+
+      - name: Typecheck
+        run: tsc --pretty false --noEmit | reviewdog -f=tsc -reporter=github-pr-check -fail-on-error=true
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
