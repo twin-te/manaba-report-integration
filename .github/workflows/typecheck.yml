@@ -22,6 +22,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Generate codes
+        run: yarn run codegen
+
       - name: Setup reviewdog
         uses: reviewdog/action-setup@v1
         with:
