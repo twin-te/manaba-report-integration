@@ -2,9 +2,7 @@
   "key": "",
   "google": {
     "client_id": "",
-    "scopes": [
-      ""
-    ]
+    "scopes": [""]
   },
   "trello": {
     "app_name": "",
