@@ -1,2 +1,4 @@
 /dist
 *.md
+/src/graphql/schemas
+/src/generated

@@ -8,5 +8,9 @@
     "app_name": "",
     "key": "",
     "scopes": ""
+  },
+  "github": {
+    "client_id": "",
+    "scope": ""
   }
 }
