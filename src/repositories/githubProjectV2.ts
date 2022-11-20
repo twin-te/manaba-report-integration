@@ -102,18 +102,19 @@ export class GithubProjectV2 extends Repository {
   async upsert(todo: ManabaTodo): Promise<void> {
     const rel = await this.readChromeStorage('relation')
     const link2number: Map<string, string> = new Map(rel != null ? rel : [])
-
-    const repo: string = await this.readChromeStorage('target_repo_full_name')
-    if (!repo) {
-      throw new Error('設定が完了していないため GitHub に同期できません')
-    }
     const projectId: string = await this.readChromeStorage('target_project_id')
     if (!projectId) {
       throw new Error('設定が完了していないため GitHub に同期できません')
     }
-    const owner = (
-      await this.githubRestApi<void, { login: string }>('GET', '/user')
-    ).login
+    const [owner, repo] = await (async () => {
+      const repoFullName: string | undefined = await this.readChromeStorage(
+        'target_repo_full_name'
+      )
+      if (!repoFullName) {
+        throw new Error('設定が完了していないため GitHub に同期できません')
+      }
+      return repoFullName.split('/')
+    })()
 
     // issue がこの拡張機能の管理下にない場合
     if (!link2number.has(todo.link)) {
@@ -131,7 +132,7 @@ export class GithubProjectV2 extends Repository {
           assignees: string[]
         },
         { number: number; node_id: string }
-      >('POST', `/repos/${repo}/issues`, {
+      >('POST', `/repos/${owner}/${repo}/issues`, {
         owner,
         repo,
         title: `${todo.courceName}: ${todo.title}`,
@@ -226,17 +227,21 @@ export class GithubProjectV2 extends Repository {
     if (!link2number.has(link)) {
       throw new Error('指定された課題は GitHub に登録されていません')
     }
-
-    const repo = await this.readChromeStorage('target_repo_full_name')
-    const owner = (
-      await this.githubRestApi<void, { login: string }>('GET', '/user')
-    ).login
+    const [owner, repo] = await (async () => {
+      const repoFullName: string | undefined = await this.readChromeStorage(
+        'target_repo_full_name'
+      )
+      if (!repoFullName) {
+        throw new Error('設定が完了していないため GitHub に同期できません')
+      }
+      return repoFullName.split('/')
+    })()
 
     if (status === 'overdue') {
       // 期限切れの場合
       this.githubRestApi(
         'PATCH',
-        `/repos/${repo}/issues/${link2number.get(link)}`,
+        `/repos/${owner}/${repo}/issues/${link2number.get(link)}`,
         {
           owner,
           repo,
@@ -249,7 +254,7 @@ export class GithubProjectV2 extends Repository {
       // 完了の場合
       this.githubRestApi(
         'PATCH',
-        `/repos/${repo}/issues/${link2number.get(link)}`,
+        `/repos/${owner}/${repo}/issues/${link2number.get(link)}`,
         {
           owner,
           repo,
@@ -261,7 +266,7 @@ export class GithubProjectV2 extends Repository {
       // 未完了の場合
       this.githubRestApi(
         'PATCH',
-        `/repos/${repo}/issues/${link2number.get(link)}`,
+        `/repos/${owner}/${repo}/issues/${link2number.get(link)}`,
         {
           owner,
           repo,
