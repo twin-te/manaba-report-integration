@@ -85,7 +85,7 @@ export class GithubProjectV2 extends Repository {
       )
 
       if (!accessTokenResponse.ok) {
-        wait(deviceCode.interval)
+        await wait(deviceCode.interval)
       }
 
       accessToken = await accessTokenResponse.json()
