@@ -75,7 +75,7 @@ async function getReports(link: string, type: TodoType): Promise<ManabaTodo[]> {
       lectureCode,
       title: tds[0].querySelector('a')?.textContent || '',
       link: tds[0].querySelector('a')?.href || '',
-      due: tds[3].textContent ? new Date(tds[3].textContent + "+0800") : null,
+      due: tds[3].textContent ? new Date(tds[3].textContent + "+0900") : null,
       status,
     }
   })
