@@ -25,6 +25,9 @@ jobs:
       - name: Generate codes
         run: yarn run codegen
 
+      - name: Copy config.json
+        run: cp src/config/_config.json src/config/config.json
+
       - name: Setup reviewdog
         uses: reviewdog/action-setup@v1
         with:

@@ -1,3 +1,35 @@
+query ListFirst100Repositories {
+  viewer {
+    repositories(first: 100, orderBy: { field: UPDATED_AT, direction: DESC }) {
+      nodes {
+        nameWithOwner
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
+
+query ListNext100Repositories($after: String!) {
+  viewer {
+    repositories(
+      first: 100
+      after: $after
+      orderBy: { field: UPDATED_AT, direction: DESC }
+    ) {
+      nodes {
+        nameWithOwner
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
+
 query ListFirst100ProjectsV2 {
   viewer {
     projectsV2(first: 100, orderBy: { field: UPDATED_AT, direction: DESC }) {
