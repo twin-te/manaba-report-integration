@@ -32,7 +32,6 @@ chrome.runtime.onInstalled.addListener(function () {
 
 chrome.runtime.onMessage.addListener(
   (request: Message, sender, sendResponse) => {
-    console.log(request, sender, sendResponse)
     switch (request.type) {
       case 'updateTodoStatus':
         getActiveRepository().then((repo) => {

@@ -32,7 +32,6 @@ export async function upsertAll(
     due: due ? new Date(due) : null,
     ...t,
   }))
-  console.log(data)
   for (let i = 0; i < data.length; i++) {
     await repo.upsert(data[i])
     if (progressNotifer) progressNotifer(i + 1, data.length)

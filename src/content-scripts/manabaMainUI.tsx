@@ -17,7 +17,6 @@ const App = () => {
 
   useEffect(() => {
     const listener = (request: Message) => {
-      console.log(request)
       if (request.type === 'syncStatusChanged') {
         if (request.status === 'progress') setImporting(true)
         else setTimeout(() => setImporting(false), 3000)

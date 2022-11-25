@@ -39,7 +39,6 @@ const BlackListSetting: React.FC<BlackListSettingProp> = ({ active }) => {
           parent={th}
           value={blacklist?.master}
           onChange={async (item) => {
-            console.log(item, blacklist)
             if (!blacklist) return
             const tmp = { master: item, cources: blacklist.cources }
             await writeStorage('blacklist', tmp)
