@@ -13,6 +13,25 @@
 - chrome のストレージを使う場合は、`this.writeChromeStorage`、`this.readChromeStorage` を使用すること。（レポジトリごとにプレフィックスがつく）
 - パブリックキーも含め、可換なキーはハードコーディングせず、極力 `src/config/config.json` に記述し、インポートすること。
 
+## 各種サービスの設定
+
+### Google Calender
+WIP
+
+### Trello
+WIP
+
+### GitHub Project V2 (beta)
+
+1. GitHub の OAuth App を作成する
+    1. GitHub App とは別物なので間違わないこと
+    1. 作り方は[OAuthアプリの作成 - GitHub Docs](https://docs.github.com/ja/developers/apps/building-oauth-apps/creating-an-oauth-app) を参照
+    1. Device Flow を使用するので
+        1. Enable Device Flow をチェック
+        1. Authorization callback URL は使用しないので適当な URL で良い
+1. config.json のフィールドに GitHub によって発行された `client_id` をセットする
+1. config.json の `scope` フィールドに `repo, project` をセットする
+
 ## 動作確認
 `yarn build` を実行すると`dist`にファイルが吐かれるので、chromeでそのディレクトリを読み込むと試用できる。
 作成したレポジトリがポップアップ内のサービス一覧に表示されるはず。
