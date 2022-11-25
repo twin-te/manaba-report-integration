@@ -27,7 +27,7 @@ const SettingSection: React.FC = () => {
           onClick={() => {
             chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              chrome.tabs.sendMessage(tabs[0].id!!, { type: 'editBlackList' })
+              chrome.tabs.sendMessage(tabs[0].id!, { type: 'editBlackList' })
             })
             window.close()
           }}
