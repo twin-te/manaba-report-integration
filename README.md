@@ -6,6 +6,7 @@ Manabaのレポート提出状況を外部のTodo管理サービス等に同期�
 # 現在の対応サービス
 - GoogleTasks
 - Trello
+- GitHub Project V2 (beta)
 
 # 対応サービスをリクエストしたい方へ
 Issueに投稿してください。
