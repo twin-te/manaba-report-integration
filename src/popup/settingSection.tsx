@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { readStorage, writeStorage } from '../background/utils'
 import { FormControlLabel, Switch, Paper, Button } from '@material-ui/core'
 import WhiteButton from './whiteButton'
+import { MANABA_COURSES_LIST_URL } from '../config/const'
 
 const Root = styled(Paper)({
   padding: '1rem',
@@ -35,6 +36,7 @@ const SettingSection: React.FC = () => {
           フィルタの設定
         </WhiteButton>
         <p>授業ごとや、カテゴリごとに同期するものを選択できます</p>
+        <p>この機能はManabaのコース一覧ページでのみ使用できます</p>
       </section>
       <FormControlLabel
         control={
