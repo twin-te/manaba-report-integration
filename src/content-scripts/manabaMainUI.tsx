@@ -7,6 +7,7 @@ import { MainTheme } from '../uiTheme'
 import BlackListSetting from '../ui/BlackListSetting'
 import { readStorage, writeStorage } from '../background/utils'
 import useSWR from 'swr'
+import { MANABA_COURSES_LIST_URL } from '../config/const'
 
 const App = () => {
   const [progress, setProgress] = useState(0)
@@ -14,6 +15,7 @@ const App = () => {
   const [importingText, setImportingText] = useState('')
 
   const [editBlackList, setEditBlackList] = useState(false)
+  const [showCaution, setShowCaution] = useState(false)
 
   useEffect(() => {
     const listener = (request: Message) => {
@@ -36,6 +38,25 @@ const App = () => {
     mutate: updateBlackListFeatureNotify,
   } = useSWR('special-notify:black-list-feature', readStorage)
 
+  const handleGoingCourseListButtonClick = () => {
+    window.location.href = MANABA_COURSES_LIST_URL
+  }
+
+  const handleSettingButtonClick = async () => {
+    if (window.location.href === MANABA_COURSES_LIST_URL) {
+      setEditBlackList(true)
+      await writeStorage('special-notify:black-list-feature', true)
+      updateBlackListFeatureNotify(true)
+    } else {
+      setShowCaution(true)
+    }
+  }
+
+  const handleNoLongerDisplayButtonClick = async () => {
+    await writeStorage('special-notify:black-list-feature', true)
+    updateBlackListFeatureNotify(true)
+  }
+
   return (
     <MainTheme>
       {!editBlackList && (
@@ -46,10 +67,28 @@ const App = () => {
           action={<CircularProgress variant="static" value={progress} />}
         />
       )}
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        open={showCaution && !editBlackList}
+        message={
+          <>
+            <p>
+              この機能は
+              <a href={MANABA_COURSES_LIST_URL}>Manabaのコース一覧ページ</a>
+              でのみ使用できます
+            </p>
+          </>
+        }
+        action={
+          <Button color="secondary" onClick={handleGoingCourseListButtonClick}>
+            コース一覧ページへ
+          </Button>
+        }
+      />
       {editBlackList && (
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          open={editBlackList}
+          open={editBlackList && !showCaution}
           message={
             <>
               <div>フィルタ設定中</div>
@@ -66,19 +105,20 @@ const App = () => {
       {!blackListFeatureNotify && (
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          open={!editBlackList}
+          open={!editBlackList && !showCaution}
           message={'小テストやレポートも同期できるようになりました！'}
           action={
-            <Button
-              color="secondary"
-              onClick={async () => {
-                setEditBlackList(true)
-                await writeStorage('special-notify:black-list-feature', true)
-                updateBlackListFeatureNotify(true)
-              }}
-            >
-              設定する
-            </Button>
+            <>
+              <Button color="primary" onClick={handleSettingButtonClick}>
+                設定する
+              </Button>
+              <Button
+                color="secondary"
+                onClick={handleNoLongerDisplayButtonClick}
+              >
+                もう表示しない
+              </Button>
+            </>
           }
         />
       )}
