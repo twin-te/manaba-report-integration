@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { readStorage, writeStorage } from '../background/utils'
 import { FormControlLabel, Switch, Paper, Button } from '@material-ui/core'
 import WhiteButton from './whiteButton'
-import { MANABA_COURSES_LIST_URL } from '../config/const'
 
 const Root = styled(Paper)({
   padding: '1rem',
