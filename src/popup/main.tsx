@@ -4,9 +4,7 @@ import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import mstyled from '@material-ui/core/styles/styled'
 //import RepositoryItem from '../options/repositoryItem'
-import {
-  getActiveRepository,
-} from '../repositories/repositoryManager'
+import { getActiveRepository } from '../repositories/repositoryManager'
 import { Container, Typography, Paper } from '@material-ui/core'
 import useSWR, { mutate } from 'swr'
 import { MainTheme } from '../uiTheme'

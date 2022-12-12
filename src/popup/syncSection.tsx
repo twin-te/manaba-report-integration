@@ -60,8 +60,12 @@ const SyncSection: React.FC<SyncSectionProp> = ({ hasActiveRepo }) => {
         </WhiteButton>
         <Button
           color="primary"
-          onClick={() => { chrome.runtime.openOptionsPage() }}
-        >設定</Button>
+          onClick={() => {
+            chrome.runtime.openOptionsPage()
+          }}
+        >
+          設定
+        </Button>
       </ButtonGroup>
       <p>{importingText}</p>
       <LinearProgress
