@@ -19,7 +19,15 @@
 WIP
 
 ### Trello
-WIP
+
+1. Trelloにログインする
+2. https://trello.com/app-key にアクセスする
+    1. 開発者契約に同意してAPI キーを表示する。
+    2. 「許可されたオリジン」に `https://gbcijpgbppbphpikpdohpgmpcgdemnai.chromiumapp.org` を追加する
+3. config.json の`trello`オブジェクトをセットする
+    - `app_name`: なんでも良い
+    - `key`: 先ほど取得したAPIキー
+    - `scope`: `read,write`
 
 ### GitHub Project V2 (beta)
 
