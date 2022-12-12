@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState, useEffect } from 'react'
-import WhiteButton from './whiteButton'
-import { LinearProgress, Paper } from '@material-ui/core'
+import WhiteButton from '../ui/whiteButton'
+import { Button, ButtonGroup, LinearProgress, Paper } from '@material-ui/core'
 import useSWR, { mutate } from 'swr'
 import { readStorage } from '../background/utils'
 import { Message } from '../types/message'
@@ -49,14 +49,20 @@ const SyncSection: React.FC<SyncSectionProp> = ({ hasActiveRepo }) => {
 
   return (
     <Root elevation={0}>
-      <WhiteButton
-        disabled={importing || !hasActiveRepo}
-        variant="contained"
-        color="primary"
-        onClick={() => onImportClick()}
-      >
-        同期
-      </WhiteButton>
+      <ButtonGroup>
+        <WhiteButton
+          disabled={importing || !hasActiveRepo}
+          variant="contained"
+          color="primary"
+          onClick={() => onImportClick()}
+        >
+          同期
+        </WhiteButton>
+        <Button
+          color="primary"
+          onClick={() => { chrome.runtime.openOptionsPage() }}
+        >設定</Button>
+      </ButtonGroup>
       <p>{importingText}</p>
       <LinearProgress
         style={{ marginBottom: '1rem' }}
