@@ -10,7 +10,6 @@ import useSWR, { mutate } from 'swr'
 import { MainTheme } from '../uiTheme'
 import SyncSection from './syncSection'
 import SettingSection from './settingSection'
-import WhiteButton from '../ui/whiteButton'
 
 const Root = mstyled(Container)({
   paddingTop: '1rem',
