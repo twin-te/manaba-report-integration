@@ -17,3 +17,4 @@ jobs:
         uses: reviewdog/action-actionlint@v1
         with:
           fail_on_error: true
+          filter_mode: ${{ (github.ref_name == 'master' && 'nofilter') || 'added' }}
