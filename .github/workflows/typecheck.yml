@@ -34,6 +34,9 @@ jobs:
           reviewdog_version: latest
 
       - name: Typecheck
-        run: tsc --pretty false --noEmit | reviewdog -f=tsc -reporter=github-pr-check -fail-on-error=true
+        run: |
+          tsc --pretty false --noEmit | \
+            reviewdog -f=tsc -reporter=github-pr-check -fail-on-error=true -filter-mode="${FILTER_MODE}"
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FILTER_MODE: ${{ (github.ref_name == 'master' && 'nofilter') || 'added' }}
