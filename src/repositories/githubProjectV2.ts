@@ -246,7 +246,7 @@ export class GithubProjectV2 extends Repository {
           owner,
           repo,
           state: 'closed',
-          state_reason: 'not_planned', // eslint-disable-line @typescript-eslint/camelcase
+          state_reason: 'not_planned',
         }
       )
       return
@@ -259,7 +259,7 @@ export class GithubProjectV2 extends Repository {
           owner,
           repo,
           state: 'closed',
-          state_reason: 'completed', // eslint-disable-line @typescript-eslint/camelcase
+          state_reason: 'completed',
         }
       )
     } else {
