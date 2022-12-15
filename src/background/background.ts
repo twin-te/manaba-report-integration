@@ -11,7 +11,7 @@ function broadcastMessage(msg: Message): void {
   chrome.runtime.sendMessage(msg)
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) =>
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    chrome.tabs.sendMessage(tabs[0].id!!, msg)
+    chrome.tabs.sendMessage(tabs[0].id!, msg)
   )
 }
 
@@ -58,7 +58,7 @@ chrome.runtime.onMessage.addListener(
         ) {
           chrome.tabs.sendMessage(
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            tabs[0].id!!,
+            tabs[0].id!,
             { type: 'fetchAllReportFromManaba' },
             async (data: ManabaTodo[]) => {
               if (!data) {
