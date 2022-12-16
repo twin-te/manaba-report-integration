@@ -8,8 +8,7 @@
     "activeTab",
     "storage",
     "declarativeContent",
-    "https://github.com/",
-    "https://trello.com/"
+    "https://github.com/"
   ],
   "background": {
     "scripts": ["background.js"],
