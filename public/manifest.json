@@ -3,15 +3,8 @@
   "version": "1.2.1",
   "manifest_version": 3,
   "description": "Manabaのレポート提出状況を外部サービスに同期します",
-  "permissions": [
-    "identity",
-    "activeTab",
-    "storage",
-    "declarativeContent"
-  ],
-  "host_permissions": [
-    "https://github.com/"
-  ],
+  "permissions": ["identity", "activeTab", "storage", "declarativeContent"],
+  "host_permissions": ["https://github.com/"],
   "background": {
     "service_worker": "background.js"
   },
@@ -44,7 +37,7 @@
       "js": ["manaba_commit.js"]
     }
   ],
-  "content_security_policy":{
+  "content_security_policy": {
     "extension_pages": "script-src 'self' ; object-src 'self'"
   },
   "icons": {
