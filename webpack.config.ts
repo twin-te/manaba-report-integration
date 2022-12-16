@@ -64,7 +64,9 @@ const webpackConfig: ConfigurationFactory = () => {
             const json = JSON.parse(content.toString())
             json.oauth2.client_id = config.google.client_id
             json.oauth2.scopes = config.google.scopes
-            json.key = config.key
+            if (config.key != "") {
+              json.key = config.key
+            }
             return JSON.stringify(json)
           },
         },
