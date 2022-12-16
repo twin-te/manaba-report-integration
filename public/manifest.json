@@ -8,7 +8,8 @@
     "activeTab",
     "storage",
     "declarativeContent",
-    "https://github.com/"
+    "https://github.com/",
+    "https://trello.com/"
   ],
   "background": {
     "scripts": ["background.js"],
@@ -24,6 +25,7 @@
       "512": "icons/512.png"
     }
   },
+  "options_page": "options.html",
   "oauth2": {
     "client_id": "replace by webpack",
     "scopes": ["replace by webpack"]

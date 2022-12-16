@@ -8,6 +8,7 @@ const webpackConfig: ConfigurationFactory = () => {
   return {
     entry: {
       popup: path.join(__dirname, 'src', 'popup', 'main.tsx'),
+      options: path.join(__dirname, 'src', 'options', 'main.tsx'),
       manaba_main: path.join(
         __dirname,
         'src',

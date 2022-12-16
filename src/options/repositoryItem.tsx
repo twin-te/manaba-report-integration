@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Repository } from '../repositories/repository'
 import useSWR, { mutate } from 'swr'
-import RepositorySettingComponent from './RepositorySetting/RepositorySettingComponent'
+import RepositorySettingComponent from '../popup/RepositorySetting/RepositorySettingComponent'
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
@@ -12,7 +12,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Radio from '@material-ui/core/Radio'
 import { styled } from '@material-ui/core/styles'
 import './fix.css'
-import WhiteButton from './whiteButton'
+import WhiteButton from '../ui/whiteButton'
 
 type RepositoryItemProp = {
   repo: Repository
