@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { readStorage, writeStorage } from '../background/utils'
 import { FormControlLabel, Switch, Paper } from '@material-ui/core'
-import WhiteButton from './whiteButton'
+import WhiteButton from '../ui/whiteButton'
 
 const Root = styled(Paper)({
   padding: '1rem',
