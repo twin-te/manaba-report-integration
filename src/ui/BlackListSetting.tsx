@@ -1,7 +1,6 @@
-import { Link } from '@material-ui/core'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useSWR, { mutate } from 'swr'
-import { readStorage, writeStorage } from '../background/utils'
+import { writeStorage } from '../background/utils'
 import { BlackList, BlackListItem, readBlackList } from '../types/filterSetting'
 import { blacklistDomUtil, Cource, detectType } from './blacklistUtils'
 import CourceSelect from './CourceSelect'
@@ -39,7 +38,6 @@ const BlackListSetting: React.FC<BlackListSettingProp> = ({ active }) => {
           parent={th}
           value={blacklist?.master}
           onChange={async (item) => {
-            console.log(item, blacklist)
             if (!blacklist) return
             const tmp = { master: item, cources: blacklist.cources }
             await writeStorage('blacklist', tmp)

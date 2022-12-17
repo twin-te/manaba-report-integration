@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { readStorage, writeStorage } from '../background/utils'
-import { FormControlLabel, Switch, Paper, Button } from '@material-ui/core'
+import { FormControlLabel, Switch, Paper } from '@material-ui/core'
 import WhiteButton from '../ui/whiteButton'
 
 const Root = styled(Paper)({
@@ -27,7 +27,7 @@ const SettingSection: React.FC = () => {
           onClick={() => {
             chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              chrome.tabs.sendMessage(tabs[0].id!!, { type: 'editBlackList' })
+              chrome.tabs.sendMessage(tabs[0].id!, { type: 'editBlackList' })
             })
             window.close()
           }}

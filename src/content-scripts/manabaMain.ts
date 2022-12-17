@@ -87,11 +87,9 @@ async function getReports(link: string, type: TodoType): Promise<ManabaTodo[]> {
 async function getAllReports(): Promise<ManabaTodo[]> {
   const list = await listCource()
   const blackList = await readBlackList()
-  console.log('blacklist', blackList)
   return (
     await Promise.all(
       list.map(async (c) => {
-        console.log(c.link, blackList.cources[c.link])
         const res = []
         // 全体でレポートが無効になっていない＆コースのレポートも無効になっていない場合
         if (!blackList.master.report && !blackList.cources[c.link]?.report)
@@ -111,7 +109,6 @@ async function getAllReports(): Promise<ManabaTodo[]> {
 
 chrome.runtime.onMessage.addListener(
   (request: Message, sender, sendResponse) => {
-    console.log(request, sender, sendResponse)
     if (request.type === 'fetchAllReportFromManaba') {
       getAllReports().then(sendResponse)
     } else {
