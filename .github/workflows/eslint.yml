@@ -27,3 +27,4 @@ jobs:
         with:
           fail_on_error: true
           eslint_flags: '. --ext .tsx,.ts'
+          filter_mode: ${{ (github.ref_name == 'master' && 'nofilter') || 'added' }}
