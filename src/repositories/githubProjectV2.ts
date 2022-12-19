@@ -50,7 +50,7 @@ export class GithubProjectV2 extends Repository {
     const deviceCode: DeviceCode = await deviceCodeResponse.json()
 
     await navigator.clipboard.writeText(deviceCode.user_code)
-    alert('クリップボードにコードをコピーしました')
+    alert('クリップボードに GitHub での認可用のコードをコピーしました')
 
     await new Promise<void>((resolve) =>
       chrome.identity.launchWebAuthFlow(
