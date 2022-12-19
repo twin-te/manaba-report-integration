@@ -7,7 +7,7 @@ import { getSdk, Sdk } from '../graphql/generated/sdk'
 
 export class GithubProjectV2 extends Repository {
   id = 'githubprojectv2'
-  name = 'GitHub Project (beta)'
+  name = 'GitHub Projects V2'
   description =
     '指定されたリポジトリに issue を作成し、作成した issue を指定された project にリンクします。課題のステータスは issue の open/closed で表現するので、GitHub Project 上のステータス管理は自分で build-in automation 等を設定してください。注意：同期→拡張機能再インストール→同期　を行うとタスクが重複して作成されます。'
 
