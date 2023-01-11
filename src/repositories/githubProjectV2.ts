@@ -376,6 +376,7 @@ export class GithubProjectV2 extends Repository {
       headers: [
         ['Authorization', `Bearer ${await this.readChromeStorage('token')}`],
       ],
+      fetch: fetch,
     })
     return getSdk(client)
   }
