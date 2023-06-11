@@ -1,6 +1,6 @@
 {
   "name": "Manaba Report Integration by Twin:te",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "manifest_version": 3,
   "description": "Manabaのレポート提出状況を外部サービスに同期します",
   "permissions": ["identity", "activeTab", "storage", "declarativeContent"],
