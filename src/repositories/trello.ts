@@ -22,7 +22,11 @@ export class Trello extends Repository {
         {
           url:
             'https://trello.com/1/OAuthAuthorizeToken?expiration=never' +
-            `&name=${config.trello.app_name}&scope=${config.trello.scopes}&key=${config.trello.key}&return_url=${chrome.identity.getRedirectURL()}`,
+            `&name=${config.trello.app_name}&scope=${
+              config.trello.scopes
+            }&key=${
+              config.trello.key
+            }&return_url=${chrome.identity.getRedirectURL()}`,
           interactive: true,
         },
         async (responseUrl) => {
