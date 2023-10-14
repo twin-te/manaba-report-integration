@@ -35,6 +35,7 @@ const SettingSection: React.FC = () => {
           フィルタの設定
         </WhiteButton>
         <p>授業ごとや、カテゴリごとに同期するものを選択できます</p>
+        <p>この機能はManabaのコース一覧ページでのみ使用できます</p>
       </section>
       <FormControlLabel
         control={
